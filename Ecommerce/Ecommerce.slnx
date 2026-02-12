@@ -6,7 +6,11 @@
     <Project Path="DataAccess/DataAccess.csproj" Id="fb3dad3a-fda6-4b51-8eca-a38ecdefeaf8" />
   </Folder>
   <Folder Name="/1_DataAccess/Scripts database/">
+    <File Path="spCreateUser.sql" />
     <File Path="tblProduct.sql" />
     <File Path="tblUser.sql" />
+  </Folder>
+  <Folder Name="/99_DevTester/">
+    <Project Path="ConsoleApp-DevTesting/ConsoleApp-DevTesting.csproj" Id="e3f8732c-cd43-40f9-9a1d-6c42cdfda9ce" />
   </Folder>
 </Solution>
