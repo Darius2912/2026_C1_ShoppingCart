@@ -7,6 +7,8 @@
   </Folder>
   <Folder Name="/1_DataAccess/Scripts database/">
     <File Path="spCreateUser.sql" />
+    <File Path="spDELUser.sql" />
+    <File Path="spUPDUser.sql" />
     <File Path="tblProduct.sql" />
     <File Path="tblUser.sql" />
   </Folder>
