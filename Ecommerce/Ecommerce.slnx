@@ -8,9 +8,14 @@
   <Folder Name="/1_DataAccess/Scripts database/">
     <File Path="spCreateUser.sql" />
     <File Path="spDELUser.sql" />
+    <File Path="spRetAllUsers.sql" />
+    <File Path="spRetUserById.sql" />
     <File Path="spUPDUser.sql" />
     <File Path="tblProduct.sql" />
     <File Path="tblUser.sql" />
+  </Folder>
+  <Folder Name="/2_AppCore/">
+    <Project Path="AppCore/AppCore.csproj" Id="03c5cf0f-108d-44e5-812a-14fc042cf74a" />
   </Folder>
   <Folder Name="/99_DevTester/">
     <Project Path="ConsoleApp-DevTesting/ConsoleApp-DevTesting.csproj" Id="e3f8732c-cd43-40f9-9a1d-6c42cdfda9ce" />

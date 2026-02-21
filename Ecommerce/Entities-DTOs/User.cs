@@ -10,10 +10,11 @@ namespace Entities_DTOs
     {
 
         public string Name { get; set; }
-        public string LastName { get; set; }    
+        public string _LastName { get; set; }    
         public string Email { get; set; }
         public string Password { get; set; }
-        public DateTime BirthDate { get; set; } 
-
+        public DateTime BirthDate { get; set; }
+        public int Id { get; set; }
+        public string LastName { get; set; }
     }
 }
