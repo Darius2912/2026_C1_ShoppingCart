@@ -26,12 +26,79 @@ namespace AppCore
                     //una vez creado envia el mail de bienvenida
                     EmailManager.SendWolcomeEmail(u);
                 }
+                else
+                {
+                    throw new Exception("El usuario no cumple con la edad minima para registrase en el sistema");
+                }
             }
             catch (Exception ex)
             {
                 
             }
         }
+
+        public void Update(User u)
+        {
+            try
+            {
+                if (IsOver18(u))
+                {
+                    var uCrud = new UserCrudFactory();
+                    uCrud.Update(u);
+                }
+                else
+                {
+                 throw new Exception("El usuario no cumple con la edad minima para registrase en el sistema");
+
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        public void Delete(User u)
+        {
+            try
+            {
+                var uCrud = new UserCrudFactory();
+                uCrud.Delete(u);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        public List<User> RetrieveAll()
+        {
+            var list = new List<User>();
+            try
+            {
+                var uCrud = new UserCrudFactory();
+                list= uCrud.RetrieveAll<User>();
+            }
+            catch (Exception ex)
+            {
+               ManegerException(ex);
+            }
+            return list;
+        }
+
+        public User RetriveUserById(int id)
+        {
+            var user = new User();
+            try
+            {
+                var uCrud = new UserCrudFactory();
+                user = uCrud.RetrieveById<User>(id);
+            }
+            catch (Exception ex)
+            {
+                ManegerException(ex);
+            }
+            return user;
+        }
+        
 
         private bool IsOver18(User u)
         {
