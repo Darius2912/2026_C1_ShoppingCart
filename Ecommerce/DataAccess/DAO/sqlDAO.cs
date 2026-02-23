@@ -85,8 +85,7 @@ namespace DataAccess.DAO
 
                     if (reader.HasRows)
                         {
-                        while (reader.Read())
-                        {
+                       
                            while (reader.Read())
                             {
                                 var row = new Dictionary<string, object>();
@@ -100,8 +99,6 @@ namespace DataAccess.DAO
                                 }
                                 lstResults.Add(row);
                             }
-                   
-                        }
             
                     }
        

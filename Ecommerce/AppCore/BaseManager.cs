@@ -9,10 +9,12 @@ namespace AppCore
         protected void ManegerException(Exception exception)
         {
             //TO DO: Escribir las excepciones en un archivo o en base de datos
-               
+            if (exception != null)
+            {
 
 
-            throw exception;
+                throw exception;
+            }
         }
     }
 }

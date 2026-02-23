@@ -50,7 +50,7 @@ public class Program
                     var updText = Console.ReadLine();
                     var updVals = updText.Split(",");
 
-                    updUser.id = int.Parse(updVals[0]);
+                    updUser.Id = int.Parse(updVals[0]);
                     updUser.Name = updVals[1];
                     updUser._LastName = updVals[2];
                     updUser.Password = updVals[3];
@@ -66,7 +66,7 @@ public class Program
                     // Eliminar usuario
                     var delUser = new User();
                     Console.Write("Ingrese el ID del usuario a eliminar: ");
-                    delUser.id = int.Parse(Console.ReadLine());
+                    delUser.Id = int.Parse(Console.ReadLine());
                     uc.Delete(delUser);
                     Console.WriteLine("Usuario eliminado correctamente.");
                     break;
@@ -77,7 +77,7 @@ public class Program
                     Console.WriteLine("\n--- Lista de Usuarios ---");
                     foreach (var u in usuarios)
                     {
-                        Console.WriteLine($"ID: {u.Id}, Nombre: {u.Name} {u.LastName}, Email: {u.Email}, Estado: {u.Status}, Fecha Nacimiento: {u.BirthDate.ToShortDateString()}");
+                        Console.WriteLine($"ID: {u.Id}, Nombre: {u.Name} {u._LastName}, Email: {u.Email}, Estado: {u.Status}, Fecha Nacimiento: {u.BirthDate.ToShortDateString()}");
                     }
                     break;
 
@@ -87,7 +87,7 @@ public class Program
                     var usuario = uc.RetrieveById<User>(id);
                     if (usuario != null)
                     {
-                        Console.WriteLine($"ID: {usuario.Id}, Nombre: {usuario.Name} {usuario.LastName}, Email: {usuario.Email}, Estado: {usuario.Status}, Fecha Nacimiento: {usuario.BirthDate.ToShortDateString()}");
+                        Console.WriteLine($"ID: {usuario.Id}, Nombre: {usuario.Name} {usuario._LastName}, Email: {usuario.Email}, Estado: {usuario.Status}, Fecha Nacimiento: {usuario.BirthDate.ToShortDateString()}");
                     }
                     else
                     {

@@ -10,7 +10,7 @@ namespace Entities_DTOs
         /*
          * clase base para los DTOs o Pojos
          */
-        public int id { get; set; }
+        public int Id { get; set; }
         public string Status { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }

@@ -38,7 +38,7 @@ namespace DataAccess.CRUD
             var sqlOperation = new sqlOperation();
             sqlOperation.ProcedureName = "DEl_USER_PR";
 
-            sqlOperation.AddIntParam("P_ID", user.id);
+            sqlOperation.AddIntParam("P_ID", user.Id);
            
             sqlDAO.ExecuteProcedure(sqlOperation);
         }
@@ -91,7 +91,7 @@ namespace DataAccess.CRUD
             var sqlOperation = new sqlOperation();
             sqlOperation.ProcedureName = "UPD_USER_PR";
 
-            sqlOperation.AddIntParam("P_ID", user.id);
+            sqlOperation.AddIntParam("P_ID", user.Id);
             sqlOperation.AddStringParam("P_NAME ", user.Name);
             sqlOperation.AddStringParam("P_Last_Name ", user._LastName);
             sqlOperation.AddStringParam("P_Password", user.Password);
@@ -110,7 +110,7 @@ namespace DataAccess.CRUD
                 Id = (int)row["ID"],
                 Created = (DateTime)row["Created"],
                 Name = (string)row["Name"],
-                LastName = (string)row["LastName"],
+                _LastName = (string)row["LastName"],
                 Password = (string)row["Password"],
                 Email = (string)row["Email"],
                 BirthDate = (DateTime)row["BirthDate"],
