@@ -28,11 +28,11 @@ namespace DataAccess.DAO
             Parameters.Add(new SqlParameter(paramName, paramValue));
         }
 
-        public void  AddDoubleParam(string paramName, double paramValue)
+        public void AddDecimalParam(string paramName, decimal paramValue)
         {
             Parameters.Add(new SqlParameter(paramName, paramValue));
-        } 
-        
+        }
+
         public void AddDateTimeParam(string paramName, DateTime paramValue)
         {
             Parameters.Add(new SqlParameter(paramName, paramValue));
@@ -42,5 +42,7 @@ namespace DataAccess.DAO
         {
             throw new NotImplementedException();
         }
+
+
     }
 }

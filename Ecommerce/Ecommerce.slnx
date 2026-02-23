@@ -6,10 +6,15 @@
     <Project Path="DataAccess/DataAccess.csproj" Id="fb3dad3a-fda6-4b51-8eca-a38ecdefeaf8" />
   </Folder>
   <Folder Name="/1_DataAccess/Scripts database/">
+    <File Path="spCreateProduct.sql" />
     <File Path="spCreateUser.sql" />
+    <File Path="spDELProduct.sql" />
     <File Path="spDELUser.sql" />
+    <File Path="spRETAllProduct.sql" />
     <File Path="spRetAllUsers.sql" />
+    <File Path="spRetProductById.sql" />
     <File Path="spRetUserById.sql" />
+    <File Path="spUPDProduct.sql" />
     <File Path="spUPDUser.sql" />
     <File Path="tblProduct.sql" />
     <File Path="tblUser.sql" />
