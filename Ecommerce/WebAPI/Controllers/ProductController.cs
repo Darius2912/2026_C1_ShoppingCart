@@ -1,7 +1,7 @@
 ﻿using AppCore;
 using Entities_DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace WebAPI.Controllers
 {
@@ -9,7 +9,6 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        // CREATE (POST)
         [HttpPost]
         [Route("Create")]
         public IActionResult Create(Product p)
@@ -22,14 +21,13 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return BadRequest(new { message = ex.Message });
             }
         }
 
-        // RETRIEVE ALL (GET)
         [HttpGet]
         [Route("RetrieveAll")]
-        public ActionResult RetrieveAll()
+        public IActionResult RetrieveAll()
         {
             try
             {
@@ -39,31 +37,29 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, new { message = ex.Message });
             }
         }
 
-        // RETRIEVE BY ID (GET)
         [HttpGet]
         [Route("RetrieveById")]
-        public ActionResult RetrieveById(Product p)
+        public IActionResult RetrieveById(int id)
         {
             try
             {
                 var pm = new ProductManager();
-                var pResult = pm.RetrieveById(p.Id);
+                var pResult = pm.RetrieveById(id);
                 return Ok(pResult);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, new { message = ex.Message });
             }
         }
 
-        // UPDATE (PUT)
         [HttpPut]
         [Route("Update")]
-        public ActionResult Update(Product p)
+        public IActionResult Update(Product p)
         {
             try
             {
@@ -73,14 +69,13 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return BadRequest(new { message = ex.Message });
             }
         }
 
-        // DELETE (DELETE)
         [HttpDelete]
         [Route("Delete")]
-        public ActionResult Delete(Product p)
+        public IActionResult Delete(Product p)
         {
             try
             {
@@ -90,7 +85,7 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, new { message = ex.Message });
             }
         }
     }

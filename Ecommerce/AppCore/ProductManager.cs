@@ -13,15 +13,7 @@ namespace AppCore
         {
             try
             {
-                // Aquí podrías agregar validaciones, por ejemplo:
-                if (p.Price <= 0)
-                {
-                    throw new Exception("El precio debe ser mayor a 0.");
-                }
-                if (p.Quantity < 0)
-                {
-                    throw new Exception("La cantidad no puede ser negativa.");
-                }
+                ValidateProduct(p);
 
                 var pCrud = new ProductCrudFactory();
                 pCrud.Create(p);
@@ -36,14 +28,7 @@ namespace AppCore
         {
             try
             {
-                if (p.Price <= 0)
-                {
-                    throw new Exception("El precio debe ser mayor a 0.");
-                }
-                if (p.Quantity < 0)
-                {
-                    throw new Exception("La cantidad no puede ser negativa.");
-                }
+                ValidateProduct(p);
 
                 var pCrud = new ProductCrudFactory();
                 pCrud.Update(p);
@@ -95,6 +80,22 @@ namespace AppCore
                 ManegerException(ex);
             }
             return product;
+        }
+
+        private void ValidateProduct(Product p)
+        {
+            if (string.IsNullOrWhiteSpace(p.Name))
+            {
+                throw new Exception("El nombre del producto no puede estar vacío.");
+            }
+            if (p.Price <= 0)
+            {
+                throw new Exception("El precio debe ser mayor a 0.");
+            }
+            if (p.Quantity < 0)
+            {
+                throw new Exception("La cantidad (stock) no puede ser negativa.");
+            }
         }
     }
 }
