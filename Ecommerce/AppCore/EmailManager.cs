@@ -31,7 +31,7 @@ namespace AppCore
                 mail.From = new MailAddress(user);
                 mail.To.Add(u.Email);
                 mail.Subject = "Bienvenido al sistema";
-                mail.Body = $"Hola {u.Name},\n\n¡Bienvenid@! Gracias por registrarte en nuestra App.";
+                mail.Body = $"Hola {u.Name}\n\n¡Bienvenid@! Gracias por registrarte en nuestra App.";
 
                 // Configura el servidor SMTP
                 SmtpClient smtp = new SmtpClient(server, port);

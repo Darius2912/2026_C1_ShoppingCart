@@ -77,30 +77,50 @@ public class Program
                     Console.WriteLine("Usuario creado correctamente.");
                     break;
 
-                case "2":
-                    var updUser = new User();
+                case "2": 
                     Console.WriteLine("Ingrese: id, nombre, apellido, contraseña, email, fecha nacimiento (yyyy-MM-dd), estado - separados por coma:");
                     var updText = Console.ReadLine();
                     var updVals = updText.Split(",");
 
-                    updUser.Id = int.Parse(updVals[0]);
-                    updUser.Name = updVals[1];
-                    updUser._LastName = updVals[2];
-                    updUser.Password = updVals[3];
-                    updUser.Email = updVals[4];
-                    updUser.BirthDate = DateTime.Parse(updVals[5]);
-                    updUser.Status = updVals[6];
+                    var idUpd = int.Parse(updVals[0]);
+                    var existingUser = uc.RetrieveById<User>(idUpd);
 
-                    uc.Update(updUser);
-                    Console.WriteLine("Usuario actualizado correctamente.");
+                    if (existingUser == null)
+                    {
+                        Console.WriteLine($"No se encontró un usuario con el ID {idUpd}.");
+                    }
+                    else
+                    {
+                        var updUser = new User
+                        {
+                            Id = idUpd,
+                            Name = updVals[1],
+                            _LastName = updVals[2],
+                            Password = updVals[3],
+                            Email = updVals[4],
+                            BirthDate = DateTime.Parse(updVals[5]),
+                            Status = updVals[6]
+                        };
+
+                        uc.Update(updUser);
+                        Console.WriteLine("Usuario actualizado correctamente.");
+                    }
                     break;
 
-                case "3":
-                    var delUser = new User();
+                case "3": 
                     Console.Write("Ingrese el ID del usuario a eliminar: ");
-                    delUser.Id = int.Parse(Console.ReadLine());
-                    uc.Delete(delUser);
-                    Console.WriteLine("Usuario eliminado correctamente.");
+                    int idDel = int.Parse(Console.ReadLine());
+                    var userToDelete = uc.RetrieveById<User>(idDel);
+
+                    if (userToDelete == null)
+                    {
+                        Console.WriteLine($"No se encontró un usuario con el ID {idDel}.");
+                    }
+                    else
+                    {
+                        uc.Delete(userToDelete);
+                        Console.WriteLine("Usuario eliminado correctamente.");
+                    }
                     break;
 
                 case "4":
