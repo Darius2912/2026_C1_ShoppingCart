@@ -2,14 +2,19 @@
 using Entities_DTOs;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AppCore
 {
-
     //clase de negocio con validaciones y acciones
     public class UserManager : BaseManager
     {
+        private readonly EmailManager _emailManager;
+
+        // Inyectamos EmailManager en el constructor
+        public UserManager(EmailManager emailManager)
+        {
+            _emailManager = emailManager;
+        }
 
         //Metodo que crea el usuario, validar que este sea mayor de edad
         //Envia un correo de bienvenida al usuario
@@ -24,7 +29,7 @@ namespace AppCore
                     uCrud.Create(u);
 
                     //una vez creado envia el mail de bienvenida
-                    EmailManager.SendWolcomeEmail(u);
+                    _emailManager.SendWelcomeEmail(u);
                 }
                 else
                 {
@@ -33,7 +38,8 @@ namespace AppCore
             }
             catch (Exception ex)
             {
-                
+                // Manejo de errores centralizado
+                ManegerException(ex);
             }
         }
 
@@ -48,12 +54,12 @@ namespace AppCore
                 }
                 else
                 {
-                 throw new Exception("El usuario no cumple con la edad minima para registrase en el sistema");
-
+                    throw new Exception("El usuario no cumple con la edad minima para registrase en el sistema");
                 }
             }
             catch (Exception ex)
             {
+                ManegerException(ex);
             }
         }
 
@@ -66,6 +72,7 @@ namespace AppCore
             }
             catch (Exception ex)
             {
+                ManegerException(ex);
             }
         }
 
@@ -75,11 +82,11 @@ namespace AppCore
             try
             {
                 var uCrud = new UserCrudFactory();
-                list= uCrud.RetrieveAll<User>();
+                list = uCrud.RetrieveAll<User>();
             }
             catch (Exception ex)
             {
-               ManegerException(ex);
+                ManegerException(ex);
             }
             return list;
         }
@@ -98,11 +105,21 @@ namespace AppCore
             }
             return user;
         }
-        
 
         private bool IsOver18(User u)
         {
-            return true;
+            if (u.BirthDate == DateTime.MinValue)
+                throw new Exception("La fecha de nacimiento es requerida para validar la edad.");
+
+            var today = DateTime.Today;
+            var age = today.Year - u.BirthDate.Year;
+
+            if (u.BirthDate.Date > today.AddYears(-age))
+                age--;
+
+            return age >= 18;
         }
+
+
     }
 }

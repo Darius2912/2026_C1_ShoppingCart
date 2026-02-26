@@ -1,29 +1,29 @@
 ﻿using AppCore;
 using Entities_DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-
-    //Ruta de acceso al controlador
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        //CRUD
+        private readonly UserManager _userManager;
 
-        //CREATE ASOCIADO AL POST
-        [HttpPost]
-        [Route("Create")]
+        // El contenedor de dependencias inyecta UserManager automáticamente
+        public UserController(UserManager userManager)
+        {
+            _userManager = userManager;
+        }
+
+        // CREATE asociado al POST
+        [HttpPost("Create")]
         public IActionResult Create(User u)
         {
             try
             {
-                var um = new UserManager();
-                um.Create(u);
-                return Ok(u);
-
+                _userManager.Create(u);
+                return Ok(new { message = "Usuario creado y correo enviado", user = u });
             }
             catch (Exception ex)
             {
@@ -31,15 +31,12 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("RetrieveAll")]
+        [HttpGet("RetrieveAll")]
         public ActionResult RetrieveAll()
         {
             try
             {
-                var um = new UserManager();
-                var lstResults = um.RetrieveAll();
-
+                var lstResults = _userManager.RetrieveAll();
                 return Ok(lstResults);
             }
             catch (Exception ex)
@@ -48,17 +45,13 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("RetrieveById")]
-        public ActionResult RetrieveUserById(User u)
+        [HttpGet("RetrieveById/{id}")]
+        public ActionResult RetrieveUserById(int id)
         {
             try
             {
-                var um = new UserManager();
-
-                var uResult = um.RetriveUserById(u.Id);
+                var uResult = _userManager.RetriveUserById(id);
                 return Ok(uResult);
-
             }
             catch (Exception ex)
             {
@@ -66,30 +59,26 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpPut]
-        [Route("Update")]
+        [HttpPut("Update")]
         public ActionResult Update(User u)
         {
             try
             {
-                var um = new UserManager();
-                um.Update(u);
+                _userManager.Update(u);
                 return Ok(u);
-
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
-        [HttpDelete]
-        [Route("Delete")]
+
+        [HttpDelete("Delete")]
         public ActionResult Delete(User u)
         {
             try
             {
-                var um = new UserManager();
-                um.Delete(u);
+                _userManager.Delete(u);
                 return Ok(u);
             }
             catch (Exception ex)
