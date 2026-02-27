@@ -92,9 +92,9 @@ namespace AppCore
             {
                 throw new Exception("El precio debe ser mayor a 0.");
             }
-            if (p.Quantity < 0)
+            if (p.Quantity <= 0)
             {
-                throw new Exception("La cantidad (stock) no puede ser negativa.");
+                throw new Exception("La cantidad del (stock) no puede ser 0 o negativa.");
             }
         }
     }
