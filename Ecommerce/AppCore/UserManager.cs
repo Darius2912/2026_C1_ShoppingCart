@@ -28,7 +28,6 @@ namespace AppCore
                     var uCrud = new UserCrudFactory();
                     uCrud.Create(u);
 
-                    //una vez creado envia el mail de bienvenida
                     _emailManager.SendWelcomeEmail(u);
                 }
                 else
@@ -38,7 +37,6 @@ namespace AppCore
             }
             catch (Exception ex)
             {
-                // Manejo de errores centralizado
                 ManegerException(ex);
             }
         }

@@ -25,6 +25,9 @@
   <Folder Name="/3_WebAPI/">
     <Project Path="WebAPI/WebAPI.csproj" Id="e1f3db02-7e80-4982-ba98-5404b2c60e8d" />
   </Folder>
+  <Folder Name="/4_WebApp/">
+    <Project Path="WebApp/WebApp.csproj" Id="ca377f4a-6a3d-44c3-b90a-68f099512be7" />
+  </Folder>
   <Folder Name="/99_DevTester/">
     <Project Path="ConsoleApp-DevTesting/ConsoleApp-DevTesting.csproj" Id="e3f8732c-cd43-40f9-9a1d-6c42cdfda9ce" />
   </Folder>

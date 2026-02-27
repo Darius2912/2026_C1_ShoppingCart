@@ -1,5 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Registrar servicios
 builder.Services.AddControllers();
 builder.Services.AddTransient<AppCore.EmailManager>();
@@ -43,3 +44,4 @@ app.UseAuthorization();
 app.MapControllers();
 app.Run();
 
+app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
