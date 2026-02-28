@@ -1,37 +1,49 @@
-﻿
-
-//Clase Controladora de la vista User.cshtml
-
-//Definimos una clase JS usuando protoytpe
+﻿//Clase Controladora de la vista User.cshtml
 
 function UserViewController() {
 
-    this.viewName = "Users"; 
-    //Nombre del controlador que consumo en el API del backend
-    this.API_ControllerName = "User"
+    this.viewName = "Users";
+    this.API_ControllerName = "User";
 
-    //metodo "Constructor"
     this.InitView = function () {
         this.LoadTable();
     }
 
-    //Metodo para cargar la tabla de usuarios
     this.LoadTable = function () {
 
         var ca = new ControlActions();
         var endpoint = this.API_ControllerName + "/RetrieveAll";
-
         var urlService = ca.GetUrlApiService(endpoint);
 
         var colums = []
         colums[0] = { 'data': 'id', 'title': 'Id' };
         colums[1] = { 'data': 'name', 'title': 'Nombre' };
         colums[2] = { 'data': '_LastName', 'title': 'Apellidos' };
-        colums[3] = { 'data': 'birthDate', 'title': 'Fecha de nacimiento' };
+        colums[3] = {
+            'data': 'birthDate',
+            'title': 'Fecha de nacimiento',
+            'render': function (data, type, row) {
+                var date = new Date(data);
+                // Solo fecha: dd/MM/yyyy
+                return date.toLocaleDateString('es-CR', {
+                    day: '2-digit', month: '2-digit', year: 'numeric'
+                });
+            }
+        };
         colums[4] = { 'data': 'status', 'title': 'Estado' };
-        colums[5] = { 'data': 'created', 'title': 'Registro' };
+        colums[5] = {
+            'data': 'created',
+            'title': 'Registro',
+            'render': function (data, type, row) {
+                var date = new Date(data);
+                // Fecha y hora: dd/MM/yyyy HH:mm
+                return date.toLocaleString('es-CR', {
+                    day: '2-digit', month: '2-digit', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit'
+                });
+            }
+        };
 
-        //convertir la tabla plana y fe en una mas bonita y robusta
         $('#tblUsers').DataTable({
             "ajax": {
                 "url": urlService,
@@ -39,13 +51,12 @@ function UserViewController() {
             },
             "columns": colums
         });
-        
+
     }
 
 }
 
 //Instancia y render del controlador
-
 $(document).ready(function () {
     var vc = new UserViewController();
     vc.InitView();
