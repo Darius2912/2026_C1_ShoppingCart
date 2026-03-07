@@ -64,8 +64,7 @@ jobs:
         with:
           app-name: 'ecommerce-api'
           slot-name: 'Production'
-          package: .net-app
-          # ✅ Ahora apunta al artifact descargado, no a ./publish
-
+          package: ./.net-app
+          # ✅ Usa la carpeta descargada del artifact
 
 
