@@ -13,33 +13,37 @@ jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: read 
+      contents: read # requerido para actions/checkout
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.x'   
+          dotnet-version: '8.x'   # Ajusta según tu <TargetFramework> en WebAPI.csproj
 
       - name: Build with dotnet
-        run: dotnet build ./Ecommerce/Ecommerce.slnx --configuration Release
+        run: dotnet build ./Ecommerce/WebAPI/WebAPI.csproj --configuration Release
+        # ✅ Compila directamente el proyecto WebAPI
 
       - name: dotnet publish
-        run: dotnet publish ./Ecommerce/Ecommerce.slnx -c Release -o ./publish
-       
+        run: dotnet publish ./Ecommerce/WebAPI/WebAPI.csproj -c Release -o ./publish
+        # ✅ Publica en carpeta ./publish dentro del workspace
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
           path: ./publish
-          
+          # ✅ Sube el contenido publicado
+
   deploy:
     runs-on: windows-latest
     needs: build
     permissions:
-      id-token: write 
-      contents: read 
+      id-token: write # requerido para OIDC
+      contents: read # requerido para actions/checkout
 
     steps:
       - name: Download artifact from build job
@@ -61,7 +65,8 @@ jobs:
           app-name: 'ecommerce-api'
           slot-name: 'Production'
           package: ./publish
-      
+          # ✅ Ahora sí apunta al paquete publicado
+
 
 
 
