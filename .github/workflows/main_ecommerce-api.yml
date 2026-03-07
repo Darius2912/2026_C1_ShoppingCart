@@ -25,18 +25,21 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build ./Ecommerce/WebAPI/WebAPI.csproj --configuration Release
-        # ✅ Compila directamente el proyecto WebAPI.csproj
 
       - name: dotnet publish
         run: dotnet publish ./Ecommerce/WebAPI/WebAPI.csproj -c Release -o ./publish
-        # ✅ Publica en carpeta ./publish dentro del workspace
+
+      - name: Zip published files
+        run: Compress-Archive -Path ./publish/* -DestinationPath ./publish.zip
+        shell: pwsh
+        # ✅ Comprime la carpeta publicada en un zip
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ./publish
-          # ✅ Sube el contenido publicado
+          path: ./publish.zip
+          # ✅ Sube el zip como artifact
 
   deploy:
     runs-on: windows-latest
@@ -50,7 +53,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -64,7 +67,6 @@ jobs:
         with:
           app-name: 'ecommerce-api'
           slot-name: 'Production'
-          package: ./.net-app
-          # ✅ Usa la carpeta descargada del artifact
-
+          package: ./publish.zip
+          # ✅ Ahora apunta al zip publicado
 
