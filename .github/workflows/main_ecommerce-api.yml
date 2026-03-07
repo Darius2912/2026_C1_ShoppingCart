@@ -25,7 +25,7 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build ./Ecommerce/WebAPI/WebAPI.csproj --configuration Release
-        # ✅ Compila directamente el proyecto WebAPI
+        # ✅ Compila directamente el proyecto WebAPI.csproj
 
       - name: dotnet publish
         run: dotnet publish ./Ecommerce/WebAPI/WebAPI.csproj -c Release -o ./publish
@@ -64,10 +64,8 @@ jobs:
         with:
           app-name: 'ecommerce-api'
           slot-name: 'Production'
-          package: ./publish
-          # ✅ Ahora sí apunta al paquete publicado
-
-
+          package: .net-app
+          # ✅ Ahora apunta al artifact descargado, no a ./publish
 
 
 
