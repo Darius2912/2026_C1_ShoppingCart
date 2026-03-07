@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read # requerido para actions/checkout
 
     steps:
       - uses: actions/checkout@v4
@@ -21,13 +21,15 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.x'
+          dotnet-version: '8.x'   # ⚠️ Ajusta a la versión real de tu proyecto (ej. 8.x o 7.x)
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build ./src/ecommerce-api/ecommerce-api.csproj --configuration Release
+        # ⚠️ Cambia la ruta al .csproj real de tu API
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish ./src/ecommerce-api/ecommerce-api.csproj -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        # ⚠️ Igual que arriba, ajusta la ruta
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -39,8 +41,8 @@ jobs:
     runs-on: windows-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write # requerido para OIDC
+      contents: read # requerido para actions/checkout
 
     steps:
       - name: Download artifact from build job
@@ -62,4 +64,5 @@ jobs:
           app-name: 'ecommerce-api'
           slot-name: 'Production'
           package: .
+
           
