@@ -21,33 +21,28 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.x'   # Ajusta según tu TargetFramework en WebApp.csproj
+          dotnet-version: '8.x'   # Ajusta según tu TargetFramework
 
       - name: Build with dotnet
         run: dotnet build ./Ecommerce/WebApp/WebApp.csproj --configuration Release
-        # ✅ Compila el proyecto correcto
 
       - name: dotnet publish
         run: dotnet publish ./Ecommerce/WebApp/WebApp.csproj -c Release -o ./publish
-        # ✅ Publica en carpeta ./publish
 
       - name: Zip published files
         run: Compress-Archive -Path ./publish/* -DestinationPath ./publish.zip
         shell: pwsh
-        # ✅ Comprime la carpeta publicada en un zip
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: webapp-artifact
           path: ./publish.zip
-          # ✅ Sube el zip como artifact
 
   deploy:
     runs-on: windows-latest
     needs: build
     permissions:
-      id-token: write
       contents: read
 
     steps:
@@ -55,14 +50,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: webapp-artifact
-      
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_WEB }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
-        # ✅ Usa los secretos que debes crear en GitHub
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -70,7 +57,5 @@ jobs:
         with:
           app-name: 'ecommerce-web1'
           slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_WEB }}
           package: ./publish.zip
-          # ✅ Ahora apunta al zip publicado
-
-
