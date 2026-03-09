@@ -103,7 +103,7 @@
 					icon: 'error',
 					title: 'Oops...',
 					html: message,
-					footer: 'UCenfotec'
+					footer: 'DigitalCore'
 				})
 			}
 		});
@@ -134,7 +134,7 @@
 					icon: 'error',
 					title: 'Oops...',
 					html: message,
-					footer: 'UCenfotec'
+					footer: 'DigitalCore'
 				})
 			})
 	};
@@ -161,7 +161,7 @@
 					icon: 'error',
 					title: 'Oops...',
 					html: message,
-					footer: 'UCenfotec'
+					footer: 'DigitalCore'
 				})
 			})
 	};
