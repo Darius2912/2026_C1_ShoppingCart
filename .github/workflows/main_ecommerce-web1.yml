@@ -29,10 +29,10 @@ jobs:
           Get-ChildItem -Recurse | Select-Object FullName
          
       - name: Build with dotnet
-        run: dotnet build ././WebApp/WebApp.csproj --configuration Debug
+        run: dotnet build ./EcommerceWebApp/WebApp.csproj --configuration Debug
 
       - name: dotnet publish
-        run: dotnet publish ././WebApp/WebApp.csproj -c Debug -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish  ./EcommerceWebApp/WebApp.csproj -c Debug -o "${{env.DOTNET_ROOT}}/myapp"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -68,6 +68,7 @@ jobs:
           slot-name: 'Production'
           package: .
           
+
 
 
 
