@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: read # requerido para actions/checkout
+      contents: read #This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
@@ -21,45 +21,44 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.x'   # Ajusta según tu <TargetFramework> en WebApp.csproj
-
+          dotnet-version: '10.x'
+        
+      - name: Ver árbol del repositorio
+        shell: pwsh
+        run: |
+          Get-ChildItem -Recurse | Select-Object FullName
+         
       - name: Build with dotnet
-        run: dotnet build ./Ecommerce/WebApp/WebApp.csproj --configuration Release
+        run: dotnet build ./Ecommerce/WebApp/WebApp.csproj --configuration Debug
 
       - name: dotnet publish
-        run: dotnet publish ./Ecommerce/WebApp/WebApp.csproj -c Release -o ./publish
-
-      - name: Zip published files
-        run: Compress-Archive -Path ./publish/* -DestinationPath ./publish.zip
-        shell: pwsh
-        # ✅ Comprime la carpeta publicada en un zip
+        run: dotnet publish  ./Ecommerce/WebApp/WebApp.csproj -c Debug -o "${{env.DOTNET_ROOT}}/myapp"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ./publish.zip
-          # ✅ Sube el zip como artifact
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
     runs-on: windows-latest
     needs: build
     permissions:
-      id-token: write # requerido para OIDC
-      contents: read # requerido para actions/checkout
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-
+      
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_WEB }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_FAB50461323B49D085BB8CFE78581EC9 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_CB490494392C4B87908435E0EDC5CD02 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F7CB4395D9154C75AFBBC380296BC309 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -67,8 +66,12 @@ jobs:
         with:
           app-name: 'ecommerce-web1'
           slot-name: 'Production'
-          package: ./publish.zip
-          # ✅ Ahora apunta al zip publicado
+          package: .
+          
+
+
+
+
 
 
 
