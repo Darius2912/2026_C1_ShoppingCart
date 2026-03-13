@@ -26,7 +26,7 @@ jobs:
       - name: Ver estructura completa
         run: |
          pwd
-         find.-maxddepth 4 -type f|sort
+         find.-maxdepth 4 -type f|sort
          
       - name: Build with dotnet
         run: dotnet build ././WebApp/WebApp.csproj --configuration Debug
@@ -68,5 +68,6 @@ jobs:
           slot-name: 'Production'
           package: .
           
+
 
 
