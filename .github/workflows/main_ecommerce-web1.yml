@@ -22,7 +22,12 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.x'
-
+        
+      - name: Ver estructura completa
+        run: |
+         pwd
+         find.-maxddepth 4 -type f|sort
+         
       - name: Build with dotnet
         run: dotnet build ././WebApp/WebApp.csproj --configuration Debug
 
@@ -63,4 +68,5 @@ jobs:
           slot-name: 'Production'
           package: .
           
+
 
