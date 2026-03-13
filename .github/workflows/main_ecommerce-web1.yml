@@ -26,7 +26,7 @@ jobs:
       - name: Ver árbol del repositorio
         shell: pwsh
         run: |
-          Get-Childltem-Recurse | Select-Object FullName
+          Get-ChildItem-Recurse | Select-Object FullName
          
       - name: Build with dotnet
         run: dotnet build ././WebApp/WebApp.csproj --configuration Debug
@@ -68,6 +68,7 @@ jobs:
           slot-name: 'Production'
           package: .
           
+
 
 
 
