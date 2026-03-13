@@ -23,10 +23,10 @@ jobs:
         with:
           dotnet-version: '10.x'
         
-      - name: Ver estructura completa
+      - name: Ver árbol del repositorio
+        shell: pwsh
         run: |
-         pwd
-         find.-maxdepth 4 -type f|sort
+          Get-Childltem-Recurse | Select-Object FullName
          
       - name: Build with dotnet
         run: dotnet build ././WebApp/WebApp.csproj --configuration Debug
@@ -68,6 +68,7 @@ jobs:
           slot-name: 'Production'
           package: .
           
+
 
 
 
