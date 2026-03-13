@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - ecommerce-api1
+name: Build and deploy ASP.Net Core app to Azure Web App - ecommerce-api
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read # requerido para actions/checkout
 
     steps:
       - uses: actions/checkout@v4
@@ -21,45 +21,53 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.x'
+          dotnet-version: '8.x'   # Ajusta según tu <TargetFramework> en WebAPI.csproj
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build ./Ecommerce/WebAPI/WebAPI.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish ./Ecommerce/WebAPI/WebAPI.csproj -c Release -o ./publish
+
+      - name: Zip published files
+        run: Compress-Archive -Path ./publish/* -DestinationPath ./publish.zip
+        shell: pwsh
+        # ✅ Comprime la carpeta publicada en un zip
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ./publish.zip
+          # ✅ Sube el zip como artifact
 
   deploy:
     runs-on: windows-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write # requerido para OIDC
+      contents: read # requerido para actions/checkout
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_4D99DA37DE304CE8AB951B0D47AA5BFD }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_0344BFFA3B13430CB540AD652E08E580 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_89FED195140A416E864F2A42C8DA99AB }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_21B7AF2804BA4F3B9641328623D8EE5E }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A75943787A0A4630A5D78D3955CE80ED }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E2126342365E407E86BF4B0BE8B4540F }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'ecommerce-api1'
+          app-name: 'ecommerce-api'
           slot-name: 'Production'
-          package: .
+          package: ./publish.zip
+          # ✅ Ahora apunta al zip publicado
+
           
