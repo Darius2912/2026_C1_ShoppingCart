@@ -23,7 +23,7 @@ namespace DataAccess.DAO
 
         //Paso 2: Redefinir el constructor, para convertirlo en privado
         private sqlDAO() {
-            connectionString = @"Data Source=ecommercedb.database.windows.net;Initial Catalog=ecommerce-DB;Persist Security Info=True;User ID=Darius12;Password=***********;Trust Server Certificate=True";
+            connectionString = @"Server=tcp:ecommercedb.database.windows.net,1433;Initial Catalog=ecommerce-DB;Persist Security Info=False;User ID=Darius12;Password=D29mayo@;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         }
 
 
